@@ -1,0 +1,24 @@
+'use strict'
+const inquirer = require("inquirer")
+const { setup } = require("../../src")
+
+
+
+
+const setupPrompt = ()=>{
+    const defaultDir = process.cwd().split("/").pop()
+return inquirer.prompt([
+{
+    type : "text",
+    name: "directory_name",
+    message: "enter directory where we should setup",
+    default: defaultDir
+}
+]).then(setup)
+}
+
+
+
+module.exports = {
+    setupPrompt
+}

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Installer shell script for open source Paraffin microservice IoT platform. See [Paraffin Platform](https://paraffiniot.github.io)",
   "main": "index.js",
+  "bin": "./index.js",
   "directories": {
     "doc": "docs"
   },
@@ -25,6 +26,7 @@
     "commander": "2.20.0",
     "figlet": "1.2.1",
     "inquirer": "6.3.1",
-    "shelljs": "0.8.3"
+    "shelljs": "0.8.3",
+    "sleep-promise": "8.0.1"
   }
 }

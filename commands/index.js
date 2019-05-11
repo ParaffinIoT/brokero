@@ -2,7 +2,8 @@
 const program = require('commander');
 const chalk  = require('chalk').default
 const welcomeDisplay = require("./welcome-display")
-const promptLogin = require("./login")
+const { promptLogin } = require("./auth")
+const  { setupPrompt } = require("./setup")
 
 const appName = "Paraffin server"
 
@@ -10,7 +11,7 @@ const appName = "Paraffin server"
 
 function runCommands(){
     program
-    .version('0.1.0')
+    .version(require("../package.json").version)
   
   program
     .command('login')
@@ -24,9 +25,12 @@ function runCommands(){
     .command('signup')
     .alias('s')
     .description(`create a new account on ${appName}`)
-    .action(function(cmd, options){
-      console.log('exec "%s" using %s mode', cmd, options.exec_mode);
-    })
+    .action(setupPrompt)
+
+    program.command("configure")
+    .alias("c")
+    .description(`setup ${appName} locally`)
+    .action(setupPrompt)
 
     program
     .on('command:*', function () {
