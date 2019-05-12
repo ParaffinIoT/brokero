@@ -17,10 +17,3 @@ Paraffin will enable you to put your IoT API services on your own server simply 
 * MQTT 3.1 and 3.1.1 compliant.
 * Sercured with authentication and JWT.
 
-
-# Install
-Run the following command in your terminal to install the latest official Paraffin IoT Platform release.
-
-```bash
-sudo curl -o- https://raw.githubusercontent.com/ParaffinIoT/brokero/master/install.sh | bash
-```
