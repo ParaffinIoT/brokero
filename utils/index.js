@@ -4,6 +4,10 @@ const chalk = require("chalk").default
 const fs = require("fs")
 const path = require("path")
 const utils = require("util")
+const shell = require("shelljs")
+const rimraf = require("rimraf")
+
+const execPromise = utils.promisify(shell.exec)
 
 
 const validateEmail = email => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
@@ -38,15 +42,13 @@ return path.join(dirArray.join("/"), dir)
 
 const emptyDir = dir=> {
     const dirPath = generateDirPath(dir)
-    const fsReadPromise = utils.promisify(fs.readdir)
-    const fsunlinkPromise = utils.promisify(fs.unlink)
+
    return  asyncPipe(
-        fsReadPromise,
-        (files=[])=>Promise.all(files.map(file=>{
-            const filePath = path.join(dirPath, file)
-            return fsunlinkPromise(filePath)
-        }))
-    )(dirPath)
+        _=> shell.cd(".."),
+        _=> utils.promisify(rimraf)(dirPath),
+        _=> shell.cd(dirPath)
+        )()
+    
 }
 
 
