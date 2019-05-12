@@ -1,18 +1,18 @@
 'use strict'
 const inquirer = require("inquirer")
 const { setup } = require("../../src")
+const { defaultDir } = require("../../utils")
 
 
 
 
 const setupPrompt = ()=>{
-    const defaultDir = process.cwd().split("/").pop()
 return inquirer.prompt([
 {
     type : "text",
     name: "directory_name",
     message: "enter directory where we should setup",
-    default: defaultDir
+    default: defaultDir()
 }
 ]).then(setup)
 }
