@@ -43,9 +43,9 @@ const setup = async ({ directory_name =required("directory_name") })  => {
           },
             _=> logSuccess("clone paraffin repo"),
             _=> dirExists(directory_name) ? emptyDir(directory_name): shell.mkdir(directory_name),
-        // _=> execPromisfy(`git clone https://github.com/ParaffinIoT/paraffin ${dirExists(directory_name)? ".": directory_name }`),
-        // _=> logSuccess("starting docker-compose"),
-        // _=>execPromisfy("sudo docker-compose up")
+        _=> execPromisfy(`git clone https://github.com/ParaffinIoT/paraffin ${dirExists(directory_name)? ".": directory_name }`),
+        _=> logSuccess("starting docker-compose"),
+        _=>dirExists(directory_name) ?  execPromisfy("sudo docker-compose up"): "",
         _=>shell.exit(1)
       )()
 

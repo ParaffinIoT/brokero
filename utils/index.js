@@ -1,11 +1,10 @@
 'use strict'
 
 const chalk = require("chalk").default
-const fs = require("fs")
+const fs = require("fs-extra")
 const path = require("path")
 const utils = require("util")
 const shell = require("shelljs")
-const rimraf = require("rimraf")
 
 const execPromise = utils.promisify(shell.exec)
 
@@ -42,13 +41,7 @@ return path.join(dirArray.join("/"), dir)
 
 const emptyDir = dir=> {
     const dirPath = generateDirPath(dir)
-
-   return  asyncPipe(
-        _=> shell.cd(".."),
-        _=> utils.promisify(rimraf)(dirPath),
-        _=> shell.cd(dirPath)
-        )()
-    
+    return fs.emptyDir(dirPath)
 }
 
 
