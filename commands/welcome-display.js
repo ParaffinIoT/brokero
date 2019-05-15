@@ -6,7 +6,7 @@ const figlet = require('figlet')
 const showDisplay = () => {
   console.log(
     chalk.white(
-      figlet.textSync('Paraffin IOT CLIc', {
+      figlet.textSync('BROKERO', {
         font: 'Computer',
         horizontalLayout: 'full',
         verticalLayout: 'universal smushing',

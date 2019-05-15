@@ -41,7 +41,7 @@ const setup = async ({ directory_name = required('directory_name') }) => {
             {
               name: 'override',
               type: 'text',
-              message: `A directory exist with the name ${directory_name}, do you want to ovverride?`,
+              message: `A directory exist with the name ${directory_name}, do you want to override?`,
               default: 'y',
             },
           ])
@@ -65,7 +65,7 @@ const setup = async ({ directory_name = required('directory_name') }) => {
       ),
     _ => logSuccess('starting docker-compose'),
     _ =>
-      dirExists(directory_name) ? execPromisfy('sudo docker-compose up') : '',
+      dirExists(directory_name) ? execPromisfy('sudo docker-compose up -d') : '',
     _ => shell.exit(1)
   )()
 
