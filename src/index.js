@@ -1,10 +1,9 @@
 'use strict'
 
-const auth = require("./auth")
+const auth = require('./auth')
 const setup = require('./setup')
 
-
 module.exports = {
-    ...auth,
-    ...setup
+  ...auth,
+  ...setup,
 }

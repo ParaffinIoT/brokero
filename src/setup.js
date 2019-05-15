@@ -1,61 +1,77 @@
 'use strict'
-const { required, asyncPipe, logError, logSuccess, generateDirPath, dirExists, emptyDir } = require("../utils")
-const shell = require('shelljs');
-const inquirer = require("inquirer")
-const { installDockerScripts } = require("./platforms")
-const utils = require("util")
+const {
+  required,
+  asyncPipe,
+  logError,
+  logSuccess,
+  generateDirPath,
+  dirExists,
+  emptyDir,
+} = require('../utils')
+const shell = require('shelljs')
+const inquirer = require('inquirer')
+const { installDockerScripts } = require('./platforms')
+const utils = require('util')
 
 const execPromisfy = utils.promisify(shell.exec)
 
-const paraffinDockerUrl = "https://github.com/ParaffinIoT/paraffin"
+const paraffinDockerUrl = 'https://github.com/ParaffinIoT/paraffin'
 
+const setup = async ({ directory_name = required('directory_name') }) => {
+  if (!shell.which('docker')) {
+    shell.echo('docker not found. installing....')
+    await installDockerScripts()
+  } else {
+    logSuccess('docker already installed')
+  }
 
-const setup = async ({ directory_name =required("directory_name") })  => {
-    if (!shell.which('docker')) {
-        shell.echo('docker not found. installing....');
-        await installDockerScripts()
-      }else{
-        logSuccess("docker already installed")
+  logSuccess('continuing installation ...')
+
+  if (!shell.which('git')) {
+    logError(
+      'git is required to run brokero. visit https://git-scm.com/downloads to install'
+    )
+  }
+
+  asyncPipe(
+    function() {
+      if (dirExists(directory_name)) {
+        return inquirer
+          .prompt([
+            {
+              name: 'override',
+              type: 'text',
+              message: `A directory exist with the name ${directory_name}, do you want to ovverride?`,
+              default: 'y',
+            },
+          ])
+          .then(({ override }) => {
+            if (override === 'y') return
+            logError('stopping process.... ')
+            shell.exit()
+          })
       }
+    },
+    _ => logSuccess('clone paraffin repo'),
+    _ =>
+      dirExists(directory_name)
+        ? emptyDir(directory_name)
+        : shell.mkdir(directory_name),
+    _ =>
+      execPromisfy(
+        `git clone https://github.com/ParaffinIoT/paraffin ${
+          dirExists(directory_name) ? '.' : directory_name
+        }`
+      ),
+    _ => logSuccess('starting docker-compose'),
+    _ =>
+      dirExists(directory_name) ? execPromisfy('sudo docker-compose up') : '',
+    _ => shell.exit(1)
+  )()
 
-      logSuccess("continuing installation ...")
-
-      if(!shell.which("git")){
-          logError("git is required to run brokero. visit https://git-scm.com/downloads to install")
-      }
-
-      asyncPipe(
-        function (){
-              if(dirExists(directory_name)){
-              return   inquirer.prompt([
-                    {
-                        name: "override",
-                        type: "text",
-                        message: `A directory exist with the name ${directory_name}, do you want to ovverride?`,
-                        default: "y"
-                    }
-                ]).then(({ override })=>{
-                    if(override === 'y') return;
-                    logError("stopping process.... ")
-                    shell.exit()
-                })
-              }
-          },
-            _=> logSuccess("clone paraffin repo"),
-            _=> dirExists(directory_name) ? emptyDir(directory_name): shell.mkdir(directory_name),
-        _=> execPromisfy(`git clone https://github.com/ParaffinIoT/paraffin ${dirExists(directory_name)? ".": directory_name }`),
-        _=> logSuccess("starting docker-compose"),
-        _=>dirExists(directory_name) ?  execPromisfy("sudo docker-compose up"): "",
-        _=>shell.exit(1)
-      )()
-
-
-
-    // console.logError(directory_name)
+  // console.logError(directory_name)
 }
 
-
-
 module.exports = {
-    setup
+  setup,
 }

@@ -1,20 +1,26 @@
 {
   "name": "brokero",
   "version": "0.0.1",
-  "description": "Installer shell script for open source Paraffin microservice IoT platform. See [Paraffin Platform](https://paraffiniot.github.io)",
+  "description": "Paraffin Cli utility. See [Paraffin Platform](https://paraffiniot.github.io)",
   "main": "index.js",
   "bin": "./index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write './{,!(node_modules|.next)/**}/*.js'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ParaffinIoT/brokero.git"
   },
-  "keywords": [],
+  "keywords": [
+    "brokero",
+    "nodejs",
+    "paraffin",
+    "parse server"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -29,5 +35,8 @@
     "inquirer": "6.3.1",
     "shelljs": "0.8.3",
     "sleep-promise": "8.0.1"
+  },
+  "devDependencies": {
+    "prettier": "1.17.1"
   }
 }
