@@ -4,7 +4,6 @@ const {
   asyncPipe,
   logError,
   logSuccess,
-  generateDirPath,
   dirExists,
   emptyDir,
 } = require('../utils')
@@ -12,6 +11,8 @@ const shell = require('shelljs')
 const inquirer = require('inquirer')
 const { installDockerScripts } = require('./platforms')
 const utils = require('util')
+const open = require('open');
+
 
 const execPromisfy = utils.promisify(shell.exec)
 
@@ -66,6 +67,8 @@ const setup = async ({ directory_name = required('directory_name') }) => {
     _ => logSuccess('starting docker-compose'),
     _ =>
       dirExists(directory_name) ? execPromisfy('sudo docker-compose up -d') : '',
+  _=>logSuccess("setup complete run. Openning parafin app "),
+  _=> process.env.NODE_ENV !== 'production' &&  open("http://localhost:5000/dashboard") ,
     _ => shell.exit(1)
   )()
 
