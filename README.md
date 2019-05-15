@@ -17,11 +17,11 @@ Install dependencies
 > brokero --help  for list of commands
 ```
 
-|  COMMAND        |       DESCRIPTION         | 
-| ---------------- | ------------------------- |
-|  brokero login |    Login to parraffin server to use brokero |
-| brokero signup  |    Create a new paraffin account    |
-|  brokero configure     |    Sets up brokero locally. It installs docker and docker compose if not available. And builds paraffin server image |
+|  COMMAND                |       DESCRIPTION         | 
+| ----------------        | ------------------------- |
+|  brokero login          |    Login to parraffin server to use brokero |
+| brokero signup            |    Create a new paraffin account    |
+|  brokero configure       |    Sets up brokero locally. It installs docker and docker compose if not available. And builds paraffin server image |
 
 
 
